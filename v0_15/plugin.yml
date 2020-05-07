@@ -1,0 +1,15 @@
+name: "MHMain"
+main: "jkorn\mh\MeetupHelper"
+version: "1.0.0"
+api: "2.0.0"
+author: "jkorn"
+description: "A helper plugin used for conducting manual meetups."
+website: "https://github.com/jkorn2324"
+
+permissions:
+  permission.meetup.tp:
+    default: op
+    description: "Allows players to tp everyone to their position and give them a kit."
+  permission.meetup.gm:
+    default: op
+    description: "Allows players to global mute the chat."
