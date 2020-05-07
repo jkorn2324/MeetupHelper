@@ -7,6 +7,7 @@ namespace jkorn\mh;
 
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
+use pocketmine\event\player\PlayerQuitEvent;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
@@ -20,6 +21,16 @@ class MHListener implements Listener
     {
         $this->server = $plugin->getServer();
         $this->server->getPluginManager()->registerEvents($this, $plugin);
+    }
+
+    /**
+     * @param PlayerQuitEvent $event
+     *
+     * Called when the player quits the game.
+     */
+    public function onQuit(PlayerQuitEvent $event)
+    {
+        MHMain::getPlayerManager()->removeFromCooldown($event->getPlayer());
     }
 
     /**

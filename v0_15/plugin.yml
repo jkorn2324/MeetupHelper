@@ -1,5 +1,5 @@
-name: "MHMain"
-main: "jkorn\mh\MeetupHelper"
+name: "MeetupHelper"
+main: jkorn\mh\MHMain
 version: "1.0.0"
 api: "2.0.0"
 author: "jkorn"

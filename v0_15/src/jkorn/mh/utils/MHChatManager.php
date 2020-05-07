@@ -15,33 +15,20 @@ class MHChatManager
     /** @var MHMain */
     private $main;
 
-    /** @var string */
-    private $jsonFile;
-
-    public function __construct(MHMain $main)
+    public function __construct(MHMain $main, array $contents)
     {
         $this->main = $main;
         $this->muted = false;
 
-        $this->jsonFile = $main->getDataFolder() . "chat_data.json";
-        $this->loadData();
+        $this->loadData($contents);
     }
 
     /**
      * Loads the data from the json file.
+     * @param array $contents
      */
-    private function loadData() {
+    private function loadData(array $contents) {
 
-        if(!file_exists($this->jsonFile)) {
-
-            $file = fopen($this->jsonFile, "w");
-            fclose($file);
-
-            file_put_contents($this->jsonFile, json_encode(["muted" => $this->muted]));
-            return;
-        }
-
-        $contents = json_decode(file_get_contents($this->jsonFile), true);
         if(isset($contents["muted"])) {
             $this->muted = (bool)$contents["muted"];
         }
@@ -49,10 +36,12 @@ class MHChatManager
 
     /**
      * Saves the data to the json file
+     *
+     * @param array &$data
      */
-    public function saveData() {
+    public function saveData(array &$data) {
 
-        file_put_contents($this->jsonFile, json_encode(["muted" => $this->muted]));
+        $data["muted"] = $this->muted;
     }
 
     /**

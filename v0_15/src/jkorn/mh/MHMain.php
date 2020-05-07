@@ -8,6 +8,7 @@ namespace jkorn\mh;
 use jkorn\mh\commands\GlobalMute;
 use jkorn\mh\commands\TPMeetup;
 use jkorn\mh\utils\MHChatManager;
+use jkorn\mh\utils\MHPlayerManager;
 use pocketmine\plugin\PluginBase;
 
 class MHMain extends PluginBase
@@ -18,6 +19,11 @@ class MHMain extends PluginBase
 
     /** @var MHChatManager */
     private static $chatManager;
+    /** @var MHPlayerManager */
+    private static $playerManager;
+
+    /** @var string */
+    private $pluginFile = "";
 
     /**
      * Called when the plugin is enabled.
@@ -29,7 +35,13 @@ class MHMain extends PluginBase
         $this->initDataFolder();
         $this->registerCommands();
 
-        self::$chatManager = new MHChatManager($this);
+        $contents = json_decode(file_get_contents($this->pluginFile), true) ?? [];
+
+        self::$chatManager = new MHChatManager($this, $contents);
+        self::$playerManager = new MHPlayerManager($this, $contents);
+
+        new MHListener($this);
+        new MHTask($this);
 
         $this->getLogger()->info("MHMain is now enabled!");
     }
@@ -39,7 +51,12 @@ class MHMain extends PluginBase
      */
     public function onDisable()
     {
-        self::$chatManager->saveData();
+        $contents = [];
+        self::$chatManager->saveData($contents);
+        self::$playerManager->saveData($contents);
+
+        file_put_contents($this->pluginFile, json_encode($contents));
+
         $this->getLogger()->info("MHMain is now disabled!");
     }
 
@@ -47,9 +64,27 @@ class MHMain extends PluginBase
      * Initializes the data folder.
      */
     private function initDataFolder() {
+
         if(!is_dir($dataFolder = $this->getDataFolder())) {
             mkdir($dataFolder);
         }
+
+        $this->pluginFile = $this->getDataFolder() . "plugin_data.json";
+
+        if(!file_exists($this->pluginFile)) {
+            $file = fopen($this->pluginFile, "w");
+            fclose($file);
+        }
+    }
+
+    /**
+     * @return string
+     *
+     * Gets the plugin's file.
+     */
+    public function getPluginFile()
+    {
+        return $this->pluginFile;
     }
 
     /**
@@ -69,6 +104,15 @@ class MHMain extends PluginBase
      */
     public static function getChatManager() {
         return self::$chatManager;
+    }
+
+    /**
+     * @return MHPlayerManager
+     *
+     * Gets the player manager.
+     */
+    public static function getPlayerManager() {
+        return self::$playerManager;
     }
 
     /**

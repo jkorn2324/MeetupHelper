@@ -24,7 +24,7 @@ class MHUtil
     {
         $players = Server::getInstance()->getOnlinePlayers();
         foreach($players as $p) {
-            if($player->getClientId() == $player->getClientId()) {
+            if($p->getClientId() == $player->getClientId()) {
                 continue;
             }
             $p->teleport($player);
