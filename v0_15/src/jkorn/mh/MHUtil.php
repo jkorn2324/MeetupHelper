@@ -57,7 +57,6 @@ class MHUtil
                     if(!$player->isSurvival() && !$player->isAdventure()) {
                         continue;
                     }
-
                     $player->removeAllEffects();
                     $player->sendMessage(self::getPrefix() . TextFormat::GREEN . " You have successfully received a kit for a meetup!");
                     $player->getInventory()->clearAll();
