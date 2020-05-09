@@ -33,7 +33,7 @@ class GlobalMute extends Command
     {
         if($this->testPermission($sender)) {
 
-            if(!isset($args[0]) || ($enabled = MHUtil::stringToBool($args[0])) == null) {
+            if(!isset($args[0]) || ($enabled = MHUtil::stringToBool($args[0])) === null) {
                 $sender->sendMessage(MHUtil::getPrefix() . " " . TextFormat::RED . $this->getUsage());
                 return true;
             }

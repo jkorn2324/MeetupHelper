@@ -13,3 +13,6 @@ permissions:
   permission.meetup.gm:
     default: op
     description: "Allows players to global mute the chat."
+  permission.meetup.chat:
+    default: op
+    description: "Allows players to speak in the chat whilst muted."

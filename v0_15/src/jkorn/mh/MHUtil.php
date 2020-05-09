@@ -152,12 +152,16 @@ class MHUtil
             case "on":
             case 1:
             case "true":
+            case "t":
             case "enabled":
+            case "enable":
                 return true;
             case "off":
             case 0:
             case "false":
+            case "f":
             case "disabled":
+            case "disable":
                 return false;
         }
 

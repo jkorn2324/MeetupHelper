@@ -8,6 +8,7 @@ namespace jkorn\mh;
 use pocketmine\event\Listener;
 use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerQuitEvent;
+use pocketmine\permission\Permission;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
@@ -41,7 +42,7 @@ class MHListener implements Listener
     public function onChat(PlayerChatEvent $event) {
 
         $player = $event->getPlayer();
-        if(MHMain::getChatManager()->isMuted()) {
+        if(MHMain::getChatManager()->isMuted() && !$player->hasPermission("permission.meetup.chat")) {
             $player->sendMessage(MHUtil::getPrefix() . TextFormat::RED . " Chat is muted for everyone.");
             $event->setCancelled();
         }
