@@ -1,6 +1,6 @@
 name: "MeetupHelper"
 main: jkorn\mh\MHMain
-version: "1.0.0"
+version: "1.0.2"
 api: "2.0.0"
 author: "jkorn"
 description: "A helper plugin used for conducting manual meetups."
